@@ -1,0 +1,7 @@
+# Normalize line endings
+* text=auto
+
+# C/ source files
+*.cslash text eol=lf
+*.cslash linguist-language=C++
+*.cslash linguist-detectable
