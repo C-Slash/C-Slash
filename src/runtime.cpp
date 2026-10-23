@@ -138,4 +138,18 @@ fs::path Runtime::resolve(const std::string& spec, Access access) const {
     return result;
 }
 
+std::string Runtime::to_spec(const fs::path& p) const {
+    std::error_code ec;
+    const fs::path full = fs::weakly_canonical(p, ec);
+    if (!ec) {
+        for (const auto& [name, root] : dirs_) {
+            if (!inside(root, full)) continue;
+            const fs::path base = fs::weakly_canonical(root, ec);
+            if (ec) continue;
+            return "dir/" + name + "/" + full.lexically_relative(base).generic_string();
+        }
+    }
+    return p.generic_string();
+}
+
 }  // namespace cslash
