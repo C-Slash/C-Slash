@@ -1,27 +1,35 @@
-The General Personal Use License v4.0
-Copyright (c) 2026 C-Slash. All rights reserved.
-1. Permission. Anyone may, free of charge, (a) read the source code,
-   and (b) build the software for their own use and run it, for any
-   purpose.
+General Personal Use License v4.0
+
+Copyright (c) 2026, C-Slash. All rights reserved.
+
+In this license, "the Software" means C/ SDK and all files
+this license comes with.
+
+1. Permission. Anyone may, free of charge:
+   (a) read the source code of the Software; and
+   (b) build the Software and run it for their own use.
 
 2. Restrictions. Without written permission from the copyright holder,
    you may not:
-   (a) modify the software or create derivative works from it;
-   (b) copy, publish, sell, sublicense or distribute the source code,
-       or any build of it, in whole or in part;
-   (c) use the code or any part of it to build a competing product or
-       language implementation;
+   (a) modify the Software or create derivative works from it;
+   (b) copy, publish, sell, sublicense or distribute the Software or
+       any build of it, in whole or in part;
+   (c) use the Software or any part of it to build a competing product
+       or service;
    (d) remove or change copyright notices.
 
-3. Ownership. The software remains the property of the copyright
+3. Ownership. The Software remains the property of the copyright
    holder. No rights are granted except those stated here.
 
-4. Termination. This permission ends automatically if you break any
+4. Third-party code. Any third-party components included with the
+   Software remain under their own licenses.
+
+5. Termination. This permission ends automatically if you break any
    of these terms.
 
-5. No warranty. The software is provided "as is", without warranty of
-   any kind. The copyright holder is not liable for any damages arising
-   from its use.
+6. No warranty. The Software is provided "as is", without warranty of
+   any kind. The copyright holder is not liable for any claim or
+   damages arising from its use.
 
-6. GitHub. Nothing here limits rights that GitHub's Terms of Service
+7. GitHub. Nothing here limits rights that GitHub's Terms of Service
    give users to view and fork public repositories on GitHub.
