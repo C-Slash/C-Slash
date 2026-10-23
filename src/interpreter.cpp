@@ -31,7 +31,6 @@ void write_bytes(const fs::path& file, const void* data, std::size_t size) {
     if (!out) throw Error("cannot write file: " + file.string());
     out.write(static_cast<const char*>(data), static_cast<std::streamsize>(size));
 }
-
 std::string lower(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -77,7 +76,6 @@ void Interpreter::run_file(const fs::path& file) {
         throw SyntaxError(file.filename().string() + ": " + e.what(), e.line);
     }
 }
-
 void Interpreter::run_source(const std::string& source) {
     if (depth_ >= kMaxDepth) throw Error("nesting too deep (possible #run/#include loop)");
     ++depth_;
@@ -119,7 +117,14 @@ void Interpreter::exec(const Node& n) {
     else if (n.name == "create") exec_create(n);
     else if (n.name == "convert") exec_convert(n);
     else if (n.name == "run") exec_run(n);
-        else if (n.name == "byte_generate") exec_byte_generate(n);
+    else if (n.name == "byte_generate") exec_byte_generate(n);
+    else if (n.name == "print") {
+        if (n.args.empty()) throw SyntaxError("#print needs some text", n.line);
+        for (std::size_t i = 0; i < n.args.size(); ++i) {
+            out() << (i == 0 ? "" : " ") << n.args[i];
+        }
+        out() << "\n";
+    }
     else if (n.name == "if") {
         last_condition_ = eval_condition(n);
         if (last_condition_ && n.action) exec(*n.action);
@@ -195,26 +200,20 @@ void Interpreter::exec_convert(const Node& n) {
     dest.replace_extension(".cslash");
     dest = rt_.resolve(dest.string(), Access::Write);
 
-    const std::string text = read_text(src);
-    const bool binary = ext == ".class" || ext == ".jar" ||
-                        text.find('\0') != std::string::npos;
     const std::string lang = language_of(ext);
 
-    // Foreign-code translation is a stub in this build: the result is a valid .cslash
-    // file that records the source as comments.
+    // The generated .cslash file is a wrapper: it records the source language and
+    // imports the original file, so C/ orchestrates the foreign code in place.
+    const std::string spec = rt_.to_spec(src);
+    if (spec.find('"') != std::string::npos && spec.find('\'') != std::string::npos) {
+        throw Error("convert: path contains both quote types: " + spec);
+    }
+    const char quote = (spec.find('"') == std::string::npos) ? '"' : '\'';
+
     std::ostringstream body;
     body << "* // converted by cslash from " << src.filename().string() << " (" << lang << ")\n";
-    body << "* // note: translation is not implemented yet; source kept as comments\n";
-    if (binary) {
-        body << "* // binary source, " << text.size() << " bytes\n";
-    } else {
-        std::istringstream lines(text);
-        std::string line;
-        while (std::getline(lines, line)) {
-            if (!line.empty() && line.back() == '\r') line.pop_back();
-            body << "* // " << line << "\n";
-        }
-    }
+    body << "* // language: " << lang << "\n";
+    body << "#import: " << quote << spec << quote << ";\n";
     const std::string result = body.str();
     write_bytes(dest, result.data(), result.size());
     out() << "[cslash] converted: " << src.string() << " -> " << dest.string() << "\n";
