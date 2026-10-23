@@ -51,6 +51,10 @@ public:
     // Throws SandboxError when the result is outside the allowed roots.
     fs::path resolve(const std::string& spec, Access access) const;
 
+    // The inverse of resolve(): writes a path as dir/NAME/rest when it lies inside a
+    // configured directory, otherwise as a plain path.
+    std::string to_spec(const fs::path& p) const;
+
 private:
     fs::path script_dir_;
     std::map<std::string, fs::path> dirs_;
