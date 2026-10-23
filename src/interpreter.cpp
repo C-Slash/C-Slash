@@ -119,7 +119,7 @@ void Interpreter::exec(const Node& n) {
     else if (n.name == "create") exec_create(n);
     else if (n.name == "convert") exec_convert(n);
     else if (n.name == "run") exec_run(n);
-    else if (n.name == "byte_generate") exec_byte_generate(n);
+        else if (n.name == "byte_generate") exec_byte_generate(n);
     else if (n.name == "if") {
         last_condition_ = eval_condition(n);
         if (last_condition_ && n.action) exec(*n.action);
