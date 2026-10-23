@@ -1,0 +1,23 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          cmake -S . -B build -DCSLASH_BUILD_TESTS=OFF -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+          cmake --build build --config Release
+      - name: Package
+        run: Compress-Archive -Path build\Release\cslash.exe -DestinationPath cslash-windows.zip
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: cslash-windows.zip
