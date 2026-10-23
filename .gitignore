@@ -1,0 +1,28 @@
+# Build output
+build/
+build-*/
+out/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+compile_commands.json
+
+# Compiled objects and binaries
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# Runtime scratch
+dir/default/
+
+# IDEs and OS
+.vscode/
+.idea/
+.vs/
+.DS_Store
+Thumbs.db
