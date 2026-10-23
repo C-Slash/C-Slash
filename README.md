@@ -1,8 +1,8 @@
 # C-Slash
 
-Private SDK and runtime for **C/** (C-slash). The public language spec and examples live in the `cslash` repository.
+SDK and runtime for **C/** (C-slash). The language spec and examples live in the `cslash` repository.
 
-Proprietary. All rights reserved. See `LICENSE`.
+Free to read and free to use. Not free to modify or redistribute. See [LICENSE](LICENSE).
 
 ## Status
 
@@ -41,6 +41,13 @@ cslash check hello.cslash
 cslash version
 ```
 
+Example `hello.cslash`:
+
+```text
+#print: "Hello from C/";
+#print: 'my name is "Guy"';
+```
+
 - Without `pr.cache`, `dir/default` is the platform Downloads folder.
 - `from: "pr.cache"` (or `--cache`) switches to PR mode and overrides directories.
 - `--strict` turns a missing `#import` file or `pr.cache` into an error instead of a warning.
@@ -65,3 +72,7 @@ All file access is confined to the configured `dir/NAME` directories (read and w
 - `#convert:` does not translate foreign code into C/ itself yet; it writes a wrapper that imports the original file.
 - Grammar extensions from `pr.txt` are not applied; both quote styles are always accepted.
 - `#include:` runs statements rather than splicing raw text before lexing.
+
+## License
+
+General Personal Use License v4.0. Copyright (c) 2026 C-Slash. See [LICENSE](LICENSE).
